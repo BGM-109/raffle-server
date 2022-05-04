@@ -1,9 +1,14 @@
 from apscheduler.schedulers.blocking import BlockingScheduler
+from scraper import RaffleScraper
 
-sched = BlockingScheduler()
+
+scraper = RaffleScraper()
+
+sched = BlockingScheduler(timezone='Asia/Seoul')
 
 @sched.scheduled_job('cron', day_of_week='mon-sun', hour=9)
 def scheduled_job():
-    print('This job is run every weekday at 9pm.')
+    scraper.get_result()
 
 sched.start()
+
